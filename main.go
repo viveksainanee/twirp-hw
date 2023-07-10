@@ -1,23 +1,25 @@
-// package main
+package main
 
-// import (
-// 	"context"
-// 	"net/http"
-// )
+import (
+	"context"
+	"net/http"
 
-// type HelloWorldServer struct{}
+	pb "github.com/viveksainanee/twirp-hw/rpc"
+)
 
-// func (s *HelloWorldServer) Hello(ctx context.Context, req *pb.HelloReq) (*pb.HelloResp, error) {
-// 	return &pb.HelloResp{Text: "Hello " + req.Subject}, nil
-// }
+type HelloWorldServer struct{}
 
-// // Run the implementation in a local server
-// func main() {
-// 	twirpHandler := pb.NewHelloWorldServer(&HelloWorldServer{})
-// 	// You can use any mux you like - NewHelloWorldServer gives you an http.Handler.
-// 	mux := http.NewServeMux()
-// 	// The generated code includes a method, PathPrefix(), which
-// 	// can be used to mount your service on a mux.
-// 	mux.Handle(twirpHandler.PathPrefix(), twirpHandler)
-// 	http.ListenAndServe(":8080", mux)
-// }
+func (s *HelloWorldServer) Hello(ctx context.Context, req *pb.HelloReq) (*pb.HelloResp, error) {
+	return &pb.HelloResp{Text: "Hello " + req.Subject}, nil
+}
+
+// Run the implementation in a local server
+func main() {
+	twirpHandler := pb.NewHelloWorldServer(&HelloWorldServer{})
+	// You can use any mux you like - NewHelloWorldServer gives you an http.Handler.
+	mux := http.NewServeMux()
+	// The generated code includes a method, PathPrefix(), which
+	// can be used to mount your service on a mux.
+	mux.Handle(twirpHandler.PathPrefix(), twirpHandler)
+	http.ListenAndServe(":8080", mux)
+}
